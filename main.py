@@ -26,7 +26,7 @@ async def sync(ctx):
 async def on_ready():
     await tree.sync()
 
-@tree.command()
+@tree.command(description="Generates semmi text.")
 async def semmimatic(ctx):
     res = model.make_sentence(tries=100)
     await ctx.response.send_message(res)
