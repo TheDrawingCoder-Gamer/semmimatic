@@ -48,7 +48,7 @@ async def fetch(ctx):
 async def on_message(message):
     await bot.process_commands(message)
     if message.author.id == semmi_id:
-        with open("semmi.txt", "w") as text_file:
+        with open("semmi.txt", "a") as text_file:
             text_file.write(message.content)
             text_file.write("\r\r\r\n")
 
