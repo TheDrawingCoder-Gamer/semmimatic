@@ -34,9 +34,11 @@ async def semmimatic(ctx):
 @bot.hybrid_command(description="Reloads bot model")
 @commands.is_owner()
 async def reload(ctx):
+    await ctx.defer(ephemeral=True)
     with open("semmi.txt") as text_file:
         model = markovify.NewlineText(text_file.read())
-    await ctx.send("Reloaded model")
+    await ctx.send(content="Done reloading", ephemeral=True)
+
 
 @bot.hybrid_command(description="Fetches current semmi data")
 @commands.check_any(commands.dm_only(), commands.is_owner())
