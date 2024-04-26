@@ -38,6 +38,10 @@ async def reload(ctx):
         model = markovify.NewlineText(text_file.read())
     await ctx.send("Reloaded model")
 
+@bot.hybrid_command(description="Fetches current semmi data")
+@commands.check_any(commands.dm_only(), commands.is_owner())
+async def fetch(ctx):
+    await ctx.send(file=discord.File("semmi.txt"))
 
 
 @bot.event
