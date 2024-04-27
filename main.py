@@ -41,9 +41,11 @@ async def reload(ctx):
 
 
 @bot.hybrid_command(description="Fetches current semmi data")
-@commands.check_any(commands.dm_only(), commands.is_owner())
 async def fetch(ctx):
-    await ctx.send(file=discord.File("semmi.txt"))
+    if ctx.interaction:
+        await ctx.send(file=discord.File("semmi.txt"), ephemeral=True)
+    else:
+        await ctx.author.send(file=discord.File("semmi.txt"))
 
 
 @bot.event
