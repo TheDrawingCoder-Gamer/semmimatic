@@ -9,7 +9,6 @@ token = os.environ["TOKEN"]
 home_server = os.environ["HOME_SERVER"]
 user_id = os.environ["USER_ID"]
 bot_owner = os.environ["BOT_OWNER"]
-device_id = os.environ["DEVICE_ID"]
 
 semmi = semmimatic.Semmimatic("semmi.txt")
 bot = niobot.NioBot(
