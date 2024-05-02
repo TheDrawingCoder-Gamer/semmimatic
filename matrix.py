@@ -33,5 +33,9 @@ async def reload(ctx):
     async with niobot.Typing(ctx.client, ctx.room.room_id):
         semmi.build_model()
     await ctx.respond("Reloaded")
-
+@bot.command()
+async def leave(ctx):
+    if not ctx.client.is_owner(ctx.message.sender):
+        return
+    await ctx.client.room_leave(ctx.room.room_id)
 bot.run(access_token=token)
