@@ -3,13 +3,11 @@ from discord.ext import commands
 from discord import app_commands
 import markovify
 import os
-
-with open("semmi.txt") as text_file:
-    model = markovify.NewlineText(text_file.read())
-
-
+import time
+import semmimatic
 
 semmi_id = 415825875146375168
+semmi = semmimatic.Semmimatic(semmi_id, "semmi.txt")
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -28,33 +26,33 @@ async def on_ready():
 
 @bot.hybrid_command(description="Generates semmi text.")
 async def semmimatic(ctx):
-    res = model.make_sentence(tries=100)
+    res = semmi.model.make_sentence(tries=100)
     await ctx.send(res)
 
 @bot.hybrid_command(description="Reloads bot model")
 @commands.is_owner()
 async def reload(ctx):
     await ctx.defer(ephemeral=True)
-    with open("semmi.txt") as text_file:
-        model = markovify.NewlineText(text_file.read())
-    await ctx.send(content="Done reloading", ephemeral=True)
+    start = time.perf_counter() 
+    semmi.build_model()
+    end = time.perf_counter()
+    elapsed = end - start
+    await ctx.send(content=f"Done reloading (elapsed {elapsed})", ephemeral=True)
 
 
 @bot.hybrid_command(description="Fetches current semmi data")
 async def fetch(ctx):
     if ctx.interaction:
-        await ctx.send(file=discord.File("semmi.txt"), ephemeral=True)
+        await ctx.send(file=discord.File(semmi.quote_path), ephemeral=True)
     else:
-        await ctx.author.send(file=discord.File("semmi.txt"))
+        await ctx.author.send(file=discord.File(semmi.quote_path))
 
 
 @bot.event
 async def on_message(message):
     await bot.process_commands(message)
-    if message.author.id == semmi_id:
-        with open("semmi.txt", "a") as text_file:
-            text_file.write(message.content)
-            text_file.write("\r\r\r\n")
+    if message.author.id == semmi.user_id:
+        semmi.add_message(message.content)
 
 
 
