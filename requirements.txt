@@ -3,3 +3,5 @@ markovify
 matrix-nio
 markdown
 nio-bot[e2ee,cli]
+portalocker
+
