@@ -1,4 +1,4 @@
-from nio import AsyncClient, MatrixRoom, RoomMessageText
+from nio import AsyncClient, MatrixRoom, InviteMemberEvent
 import niobot
 import os
 import semmimatic
@@ -9,14 +9,16 @@ token = os.environ["TOKEN"]
 home_server = os.environ["HOME_SERVER"]
 user_id = os.environ["USER_ID"]
 bot_owner = os.environ["BOT_OWNER"]
+device_id = os.environ["DEVICE_ID"]
 
 semmi = semmimatic.Semmimatic("semmi.txt")
 bot = niobot.NioBot(
     homeserver=home_server,
     user_id=user_id,
-    device_id="nio-bot",
+    device_id=device_id,
     command_prefix="s$",
-    owner_id=bot_owner
+    owner_id=bot_owner,
+    store_path='./store'
 )
 
 

@@ -2,3 +2,4 @@ vendor
 __pycache__
 test_discord.sh
 test_matrix.sh
+store
