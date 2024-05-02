@@ -2,8 +2,7 @@ import markovify
 
 # i'm a sinner
 class Semmimatic:
-    def __init__(self, user_id, quote_path, newline=True):
-        self.user_id = user_id
+    def __init__(self, quote_path, newline=True):
         self.quote_path = quote_path
         self.build_model(newline)
     def build_model(self, newline=True):

@@ -7,7 +7,9 @@ import time
 import semmimatic
 
 semmi_id = 415825875146375168
-semmi = semmimatic.Semmimatic(semmi_id, "semmi.txt")
+semmi = semmimatic.Semmimatic("semmi.txt")
+# hack for bad code
+semmi.user_id = semmi_id
 
 intents = discord.Intents.default()
 intents.message_content = True
