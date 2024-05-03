@@ -1,9 +1,11 @@
 from nio import AsyncClient, MatrixRoom, InviteMemberEvent
+import nio
 import niobot
 import os
 import semmimatic
 import asyncio
 import markdown
+import re
 
 token = os.environ["TOKEN"]
 home_server = os.environ["HOME_SERVER"]
@@ -21,10 +23,25 @@ bot = niobot.NioBot(
     store_path='./store'
 )
 
+ping_regex=re.compile('<@(.+)>')
 
-@bot.command(name="semmimatic")
+@bot.command()
 async def semmimatic(ctx):
     res = semmi.model.make_sentence(tries=100)
+    number = ping_regex.search(res)
+
+    if number:
+        for group in number.groups():
+            my_user_id = f"@_discord_{group}:t2bot.io"
+            username = "this_guy"
+            try:
+                user = await ctx.client.get_profile(my_user_id)
+                if user.displayname != None:
+                    username = user.displayname
+            except:
+                pass
+            res = res.replace(f"<@{group}>", f"[{username}](https://matrix.to/#/@_discord_{group}:t2bot.io)")
+
     await ctx.respond(res)
 @bot.command()
 async def reload(ctx):
