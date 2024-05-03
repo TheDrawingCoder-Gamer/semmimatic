@@ -40,7 +40,7 @@ async def semmimatic(ctx):
                     username = user.displayname
             except:
                 pass
-            res = res.replace(f"<@{group}>", f"[{username}](https://matrix.to/#/@_discord_{group}:t2bot.io)")
+            res = res.replace(f"<@{group}>", f"PING {username}")
 
     await ctx.respond(res)
 @bot.command()
