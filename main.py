@@ -52,11 +52,13 @@ async def fetch(ctx):
 
 @bot.event
 async def on_message(message):
-    await bot.process_commands(message)
+    await forbidden_process(bot, message)
     if message.author.id == semmi.user_id:
         semmi.add_message(message.content)
 
-
+async def forbidden_process(self, message):
+    ctx = await self.get_context(message)
+    await self.invoke(ctx)
 
 
 token = os.environ['TOKEN']
