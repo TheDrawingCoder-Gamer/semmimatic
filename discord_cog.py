@@ -36,6 +36,8 @@ class QuoteGenerator(commands.Cog):
     @commands.hybrid_command(name="gen")
     async def generate(self, ctx: commands.Context):
         res = self.model.model.make_sentence(tries=100)
+        res = res.replace("@everyone", "PING everyone")
+        res = res.replace("@here", "PING here")
         await ctx.send(res)
     @commands.hybrid_command()
     @commands.is_owner()
