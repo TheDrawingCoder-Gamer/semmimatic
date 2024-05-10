@@ -19,6 +19,16 @@ def replace(cmd, name):
     if cmd.name == "fetch":
         set_name(cmd, f"fetch_{name}")
         return
+def replace_ping(bot):
+    async def inner(user_id):
+        res = await bot.fetch_user(user_id)
+        if res is None:
+            out = str(user_id)
+        else:
+            out = res.global_name if res.global_name is not None else str(res)
+        return f"PING {out}"
+    return inner
+
 class QuoteGenerator(commands.Cog):
     def __init__(self, bot, model: semmimatic.Semmimatic, name="semmi", interest=None):
         self.bot = bot
@@ -35,9 +45,7 @@ class QuoteGenerator(commands.Cog):
             replace(cmd, name)
     @commands.hybrid_command(name="gen")
     async def generate(self, ctx: commands.Context):
-        res = self.model.model.make_sentence(tries=100)
-        res = res.replace("@everyone", "PING everyone")
-        res = res.replace("@here", "PING here")
+        res = await self.model.make_sentence_full(replace_ping(self.bot))
         await ctx.send(res)
     @commands.hybrid_command()
     @commands.is_owner()

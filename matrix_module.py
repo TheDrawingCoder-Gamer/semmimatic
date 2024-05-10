@@ -8,23 +8,22 @@ import re
 import logging
 
 ping_regex=re.compile('<@(.+)>')
+
+def replace_ping(self):
+    async def inner(user_id):
+        uid = f"@_discord_{str(user_id)}:t2bot.io"
+        username = str(user_id)
+        user = await self.get_profile(uid)
+        if hasattr(user, "displayname"):
+            if user.displayname != None:
+                username = user.displayname
+        return f"PING {username}"
+    return inner
 async def generate(self, ctx):
     async with niobot.utils.Typing(ctx.client, ctx.room.room_id):
-        res = self.model.model.make_sentence(tries=100)
-        number = ping_regex.search(res)
-
-        if number != None:
-            for group in number.groups():
-                my_user_id = f"@_discord_{group}:t2bot.io"
-                username = str(group)
-                try:
-                    user = await ctx.client.get_profile(my_user_id)
-                    if hasattr(user, "displayname"):
-                        if user.displayname != None:
-                            username = user.displayname
-                except KeyError:
-                    pass
-                res = res.replace(f"<@{group}>", f"PING {username}")
+        res = await self.model.make_sentence_full(replace_ping(ctx.client))
+        
+        
     await ctx.respond(res)
 
 async def reload(self, ctx):
