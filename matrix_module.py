@@ -45,11 +45,11 @@ class GeneratorModule(DynamicModule):
         self.lock = asyncio.Lock()
         # god is dead
         @niobot.command(f"{name}matic")
-        def stinky_generate(self, ctx):
-            generate(self, ctx)
+        async def stinky_generate(self, ctx):
+            await generate(self, ctx)
         @niobot.command(f"reload_{name}")
-        def stinky_reload(self, ctx):
-            reload(self, ctx)
+        async def stinky_reload(self, ctx):
+            await reload(self, ctx)
         self.generate = stinky_generate
         self.reload = stinky_reload
 
