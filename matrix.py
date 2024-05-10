@@ -66,7 +66,8 @@ async def semmimatic(ctx):
                     user = await ctx.client.get_profile(my_user_id)
                     if user.displayname != None:
                         username = user.displayname
-                except:
+                # to document my sanity loss
+                except KeyError:
                     pass
                 if can_ping:
                     res = res.replace(f"<@{group}>", f"[{username}](https://matrix.to/#/{my_user_id})")
