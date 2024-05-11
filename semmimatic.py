@@ -4,7 +4,7 @@ import typing
 import re
 from collections.abc import Coroutine, Callable, Awaitable
 
-ping_regex=re.compile('<@(.+)>')
+ping_regex=re.compile('<@([0-9]+)>')
 # i'm a sinner
 class Semmimatic:
     def __init__(self, quote_path, newline=True, strip_room_pings=True):
