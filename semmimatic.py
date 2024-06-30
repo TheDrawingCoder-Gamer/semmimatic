@@ -21,7 +21,7 @@ class Semmimatic:
                 self.model = ModelText(text_file.read())
     def add_message(self, content):
         with portalocker.Lock(self.quote_path, "a") as text_file:
-            text_file.write(message.content)
+            text_file.write(content)
             text_file.write("\r\r\r\n")
     def make_sentence(self, tries: int = 100, 
                       strip_room_pings: typing.Optional[bool] = None,
