@@ -43,12 +43,12 @@ class QuoteGenerator(commands.Cog):
 #            if not isinstance(cmd, app_commands.Command):
 #                continue
             replace(cmd, name)
-    @app_commands.command(name="gen")
+    @app_commands.command()
     @app_commands.user_install()
-    async def generate(self, interaction):
+    async def gen(self, interaction):
         await interaction.response.defer()
         res = await self.model.make_sentence_full(replace_ping(self.bot))
-        await interaction.response.send_message(content=res)
+        await interaction.edit_original_response(content=res)
     @commands.hybrid_command()
     @commands.is_owner()
     async def reload(self, ctx):
@@ -61,7 +61,7 @@ class QuoteGenerator(commands.Cog):
     @app_commands.command()
     async def fetch(self, interaction):
         await interaction.response.defer(ephemeral=True)
-        await interaction.response.edit_original_response(attachments=[discord.File(self.model.quote_path)])
+        await interaction.edit_original_response(attachments=[discord.File(self.model.quote_path)])
     @commands.Cog.listener()
     async def on_message(self, message):
         if self.interest is None:
