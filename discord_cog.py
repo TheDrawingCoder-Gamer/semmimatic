@@ -45,6 +45,7 @@ class QuoteGenerator(commands.Cog):
             replace(cmd, name)
     @app_commands.command()
     @app_commands.user_install()
+    @app_commands.guild_install()
     async def gen(self, interaction):
         await interaction.response.defer()
         res = await self.model.make_sentence_full(replace_ping(self.bot))
